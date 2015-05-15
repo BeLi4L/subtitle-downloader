@@ -32,7 +32,7 @@ def get_hash(name):
 
 videoExtensions = [".avi",".mp4",".mkv",".mpg",".mpeg",".mov",".rm",".vob",".wmv",".flv",".3gp"]
 
-def sub_downloader(fileName):
+def sub_downloader(fileName, language="en"):
     # Put the code in a try catch block in order to continue for other video files, if it fails during execution
     try:
         originalFileName = fileName
@@ -48,7 +48,7 @@ def sub_downloader(fileName):
 
         if not os.path.exists(fileName + ".srt"):
             headers = { 'User-Agent' : 'SubDB/1.0 (subtitle-downloader/1.0; http://github.com/manojmj92/subtitle-downloader)' }
-            url = "http://api.thesubdb.com/?action=download&hash=" + hash + "&language=en"
+            url = "http://api.thesubdb.com/?action=download&hash=" + hash + "&language=" + language
             if pyVer == 3:
                 req = urllib.request.Request(url, None, headers)
                 response = urllib.request.urlopen(req).read()
@@ -60,7 +60,7 @@ def sub_downloader(fileName):
             with open (fileName + ".srt", "wb" ) as subtitle:
                 subtitle.write(response)
     except:
-        #Ignore exception and continue
+        # Ignore exception and continue
         print("Error in fetching subtitle for " + fileName)
         print("Error", sys.exc_info())
 
