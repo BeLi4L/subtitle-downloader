@@ -50,9 +50,12 @@ def download_subtitles(file_path, language="en"):
                 req = urllib2.Request(url, '', headers)
                 response = urllib2.urlopen(req).read()
 
-            # Print "Subtitle successfully Downloaded for file " + file_path
-            with open(root + ".srt", "wb") as subtitle:
-                subtitle.write(response)
+            if response != None:
+                print("Subtitles successfully downloaded for file " + file_path)
+                with open(root + ".srt", "wb") as subtitles_file:
+                    subtitles_file.write(response)
+            else:
+                print("No subtitles found for file " + file_path)
     except:
         # Ignore exception and continue
         print("Error in fetching subtitle for " + file_path)
@@ -68,8 +71,8 @@ def main():
         if os.path.isdir(path):
             # Iterate the root directory recursively using os.walk and for each video file present get the subtitle
             for dir_path, _, file_names in os.walk(path):
-                for filename in file_names:
-                    file_path = os.path.join(dir_path, filename)
+                for file_name in file_names:
+                    file_path = os.path.join(dir_path, file_name)
                     download_subtitles(file_path)
         else:
             download_subtitles(path)
