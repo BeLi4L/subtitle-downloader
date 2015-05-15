@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # Name      : subtitle downloader
-# Purpose   : One step subtitle download
+# Purpose   : Download subtitles for movies and series
 #
 # Authors   : manoj m j, arun shivaram p, Valentin Vetter, niroyb
 # Edited by : Valentin Vetter
@@ -22,7 +22,6 @@ if PY_VERSION == 3:
     import urllib.request, urllib.parse
 
 
-
 def get_hash(file_path):
     read_size = 64 * 1024
     with open(file_path, 'rb') as f:
@@ -32,12 +31,12 @@ def get_hash(file_path):
     return hashlib.md5(data).hexdigest()
 
 
-def sub_downloader(file_path, language="en"):
+def download_subtitles(file_path, language="en"):
     # Put the code in a try catch block in order to continue for other video files, if it fails during execution
     try:
-        # Skip this file if it is not a video
         root, extension = os.path.splitext(file_path)
-        print("PY_VERSION=" + str(PY_VERSION) + ", root=" + root + ", extension=" + extension)
+
+        # Skip this file if it is not a video
         if extension not in [".avi", ".mp4", ".mkv", ".mpg", ".mpeg", ".mov", ".rm", ".vob", ".wmv", ".flv", ".3gp"]:
             return
 
@@ -71,9 +70,9 @@ def main():
             for dir_path, _, file_names in os.walk(path):
                 for filename in file_names:
                     file_path = os.path.join(dir_path, filename)
-                    sub_downloader(file_path)
+                    download_subtitles(file_path)
         else:
-            sub_downloader(path)
+            download_subtitles(path)
 
 if __name__ == '__main__':
     main()
